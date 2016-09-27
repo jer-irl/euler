@@ -32,4 +32,43 @@ def mult(inList):
         res *= x
     return res
 
-print(array)
+# i is rows, j is columns
+height = len(array)
+width = len(array[0])
+
+the_max = 0
+
+# Verticals
+for i in range(height - 3):
+    for j in range(width):
+        inlist = [array[i][j], array[i+1][j], array[i+2][j], array[i+3][j]]
+        if mult(inlist) > the_max:
+            the_max = mult(inlist)
+            print("New max:", the_max)
+
+
+# Horizontals
+for i in range(height):
+    for j in range(width - 3):
+        inlist = [array[i][j], array[i][j+1], array[i][j+2], array[i][j+3]]
+        if mult(inlist) > the_max:
+            the_max = mult(inlist)
+            print("New max:", the_max)
+
+# +Diag
+for i in range(height - 3):
+    for j in range(width - 3):
+        inlist = [array[i+3][j], array[i+2][j+1], array[i+1][j+2], array[i][j+3]]
+        if mult(inlist) > the_max:
+            the_max = mult(inlist)
+            print("New max:", the_max)
+
+# -Diag
+for i in range(height - 3):
+    for j in range(height - 3):
+        inlist = [array[i][j], array[i+1][j+1], array[i+2][j+2], array[i+3][i+3]]
+        if mult(inlist) > the_max:
+            the_max = mult(inlist)
+            print("New max:", the_max)
+
+print(the_max)

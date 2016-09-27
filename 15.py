@@ -44,3 +44,39 @@ for nod in nodes:
 print(count)
 '''
 # above was bad, I just thought to do this more dynamically
+
+# Another day, I realized that the top traversal can tell us about the bottom
+
+# Top is binary tree of depth 20, we will end up at one of 21 points
+
+bucket = {}
+
+class tree:
+    def __init__(self, depth, position):
+        self.depth = depth
+        self.position = position
+        if depth < 20:
+            self.lt = tree(self.depth + 1, self.position - 1)
+            self.rt = tree(self.depth + 1, self.position + 1)
+        elif depth == 20:
+            if self.position in bucket:
+                bucket[int(self.position)] += 1
+            elif self.position not in bucket:
+                bucket[int(self.position)] = 1
+            else:
+                print("Uh Oh")
+        else:
+            print("Uh Oh")
+
+root = tree(0, 0)
+del(tree)
+print(bucket)
+
+# Each time it gets to the halfway point, it has the same number of ways to get home
+
+sum = 0
+for key in bucket:
+    sum += bucket[key] ** 2
+
+print(sum)
+
