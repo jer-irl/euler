@@ -1,20 +1,23 @@
-# Bucket stores number of ways to create type of currency
+potential_coins = [200, 100, 50, 20, 10, 5, 2, 1]
+ways = {}
 
-bucket = {}
-bucket[1] = 1
+def ways_to_make_amount(amount, largest_coin_allowed):
+    if (amount, largest_coin_allowed) in ways:
+        return ways[(amount, largest_coin_allowed)]
 
-potential_coins = [1, 2, 5, 10, 20, 50, 100, 200]
+    if amount == 0:
+        return 1
+    elif amount < 0:
+        return 0
 
-def largest_coins(goal, potential_coins):
-    result = []
-    for coin in potential_coins[::-1]:
-        while goal - coin >= 0:
-            result.append(coin)
-            goal = goal - coin
+    allowed_coins = [c for c in potential_coins if c <= largest_coin_allowed]
+    result = 0
+    for c in allowed_coins:
+        result += ways_to_make_amount(amount - c, c)
 
+    ways[(amount, largest_coin_allowed)] = result
     return result
 
-assert(largest_coins(1, potential_coins) == [1])
-assert(largest_coins(10, potential_coins) == [10])
-assert(largest_coins(37, potential_coins) == [20, 10, 5, 2])
-assert(largest_coins(4, potential_coins) == [2, 2])
+print(ways_to_make_amount(200, 200))
+
+
