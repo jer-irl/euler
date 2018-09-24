@@ -1,8 +1,30 @@
-primes = [2]
-def generate_primes_up_to(x):
-    for candidate in range(primes[-1] + 1, x + 1):
-        if not any(candidate % p == 0 for p in primes):
-            primes.append(candidate)
+# Generating primes using sieve of eratosthenes and then brute forcing
 
-generate_primes_up_to(1000000)
-print(primes)
+from typing import List
+
+primes = set(range(2, 1000000))
+for i in range(2, 1000000):
+    if i not in primes:
+        continue
+    multiplier = 2
+    while multiplier * i < 1000000:
+        prod = multiplier * i
+        if prod in primes:
+            primes.remove(prod)
+        multiplier += 1
+
+def all_rotations(n: int) -> List[int]:
+    res = []
+    as_string = str(n)
+    for i in range(len(as_string)):
+        res.append(int(as_string[i:] + as_string[:i]))
+    return res
+
+# No pruning because I'm lazy and computers are fast
+circulars = []
+for prime in primes:
+    rotations = all_rotations(prime)
+    if all(rot in primes for rot in rotations):
+        circulars.append(prime)
+
+print(len(circulars))
